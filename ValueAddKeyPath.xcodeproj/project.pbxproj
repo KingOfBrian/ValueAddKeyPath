@@ -26,7 +26,7 @@
 		8649608E148966F7002FA648 /* SelectorEngineRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectorEngineRegistry.h; sourceTree = "<group>"; };
 		8649608F148966F7002FA648 /* NSObject+ValueAddKeyPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+ValueAddKeyPath.m"; sourceTree = "<group>"; };
 		86496090148966F7002FA648 /* NSObject+ValueAddKeyPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+ValueAddKeyPath.h"; sourceTree = "<group>"; };
-		864960A114896BC4002FA648 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		864960A114896BC4002FA648 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* ValueAddKeyPath_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ValueAddKeyPath_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libValueAddKeyPath.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libValueAddKeyPath.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,7 +55,7 @@
 		0867D691FE84028FC02AAC07 /* ValueAddKeyPath */ = {
 			isa = PBXGroup;
 			children = (
-				864960A114896BC4002FA648 /* README */,
+				864960A114896BC4002FA648 /* README.md */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
