@@ -18,10 +18,21 @@
     [registeredInstance release];
 }
 
++ (void)squashValue:(id)value intoArray:(NSMutableArray *)results
+{
+    if ([value conformsToProtocol:@protocol(NSFastEnumeration)])
+        for (id subValue in value)
+        {
+            [self squashValue:subValue intoArray:results];
+        }
+    else if (value)
+        [results addObject:value];
+}
+
 + (NSArray *) objectsForKeyPath:(NSString *)keyPath
 {
     NSArray *paths = [keyPath componentsSeparatedByString:@"."];
-    if ([paths count] < 2)
+    if ([paths count] < 1)
         return [NSArray array];
     
     NSString *className = [paths objectAtIndex:0];
@@ -31,8 +42,13 @@
 
     if (base)
     {
-        NSString *path = [[paths subarrayWithRange:NSMakeRange(1, [paths count] - 1)] componentsJoinedByString:@"."];
-        result = [base valueAddKeyPath:path];
+        if ([paths count] == 1)
+            result = base;
+        else
+        {
+            NSString *path = [[paths subarrayWithRange:NSMakeRange(1, [paths count] - 1)] componentsJoinedByString:@"."];
+            result = [base valueAddKeyPath:path];
+        }
     }
     else
     {
@@ -40,15 +56,11 @@
         result = [base valueAddKeyPath:keyPath];
     }
 
-    if ([result isKindOfClass:[NSArray class]])
-    {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self != nil"];
-        return [result filteredArrayUsingPredicate:predicate];
-    }
-    else if (result)
-        return [NSArray arrayWithObject:result];
-    else 
-        return [NSArray array];
+    NSMutableArray *results = [NSMutableArray array];
+
+    [self squashValue:result intoArray:results];
+
+    return results;
 }
 
 - (NSArray *) selectViewsWithSelector:(NSString *)selector {

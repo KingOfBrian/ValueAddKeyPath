@@ -10,6 +10,7 @@
 @interface NSObject(ValueAddKeyPath)
 
 - (id)valueAddKeyPath:(NSString *)advKeyPath;
+- (id)valueAddKeyPaths:(NSArray *)advKeyPaths;
 
 // implement this to support NSPredicate Filtering on your collection objects
 - (id)filteredValueAddUsingPredicate:(NSPredicate *)predicate;

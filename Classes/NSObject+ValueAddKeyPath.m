@@ -14,6 +14,18 @@
     [NSException raise:NSInvalidArgumentException format:@"Can not filer classes of type", [self class]];
     return nil;
 }
+- (id)valueAddKeyPaths:(NSArray *)advKeyPaths
+{
+    NSMutableArray *results = [NSMutableArray arrayWithCapacity:[advKeyPaths count]];
+    for (NSString *subKeyPath in advKeyPaths)
+    {
+        id subValue = [self valueAddKeyPath:subKeyPath];
+        if (subValue)
+            [results addObject:subValue];
+    }
+    return results;
+}
+
 
 - (id)valueAddKeyPath:(NSString *)advKeyPath
 {
@@ -23,8 +35,18 @@
     BOOL isOperation = [scanner scanString:@"@" intoString:NULL];
     
     NSString *predicateString = nil;
+    NSString *groupString = nil;
     id result = nil;
     
+    if ([scanner scanString:@"{" intoString:NULL])
+    {
+        BOOL ok = [scanner scanUpToString:@"}" intoString:&groupString];
+        if (!ok)
+            [NSException raise:NSInvalidArgumentException format:@"Key Value Group Not Closed %@ (%@)", advKeyPath, thisKey];
+        
+        NSArray *components = [groupString componentsSeparatedByString:@","];
+        return [self valueAddKeyPaths:components];
+    }
     [scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&thisKey];
 
     if ([scanner scanString:@"[[" intoString:NULL])
@@ -77,18 +99,49 @@
 
 @implementation NSArray(ValueAddKeyPath)
 
+- (id)valueAddKeyPath:(NSString *)advKeyPath
+{
+    NSMutableArray *array = [[[NSMutableArray alloc] initWithCapacity:[self count]] autorelease];
+    for (id subResult in self)
+    {
+        id newResult = [subResult valueAddKeyPath:advKeyPath];
+        if (newResult)
+            [array addObject:newResult];
+    }
+    return array;
+}
+
 - (id)filteredValueAddUsingPredicate:(NSPredicate *)predicate
 {
-    return [self filteredArrayUsingPredicate:predicate];
+    NSArray *result = [self filteredArrayUsingPredicate:predicate];
+    if ([result count] == 0)
+        return nil;
+    return result;
 }
 
 @end
 
 @implementation NSSet(ValueAddKeyPath)
 
+- (id)valueAddKeyPath:(NSString *)advKeyPath
+{
+    NSMutableSet *set = [[[NSMutableSet alloc] initWithCapacity:[self count]] autorelease];
+    for (id subResult in self)
+    {
+        id newResult = [subResult valueAddKeyPath:advKeyPath];
+        if (newResult)
+            [set addObject:newResult];
+    }
+    return set;
+}
+
+
 - (id)filteredValueAddUsingPredicate:(NSPredicate *)predicate
 {
-    return [self filteredSetUsingPredicate:predicate];
+    NSSet *result = [self filteredSetUsingPredicate:predicate];
+    if ([result count] == 0)
+        return nil;
+    return result;
 }
 
 
