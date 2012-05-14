@@ -5,9 +5,8 @@
 //
 
 #import "UIView+ValueAddLookupHelpers.h"
-#import "UIView-KIFAdditions.h"
 #import <QuartzCore/QuartzCore.h>
-#import "KIFTestStep.h"
+//#import "KIFTestStep.h"
 
 //#import "UITouch-KIFAdditions.h"
 //#import <objc/runtime.h>
